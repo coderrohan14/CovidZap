@@ -29,42 +29,44 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun registerUser(){
+    private fun registerUser() {
         val name = etNameRegister.text.toString()
         val email = etEmailRegister.text.toString()
         val password = etPasswordRegister.text.toString()
 
 
-        if(name.isNotEmpty()&&email.isNotEmpty()&&password.isNotEmpty()) {
+        if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
-                    auth.createUserWithEmailAndPassword(email,password).await()
-
+                    auth.createUserWithEmailAndPassword(email, password).await()
+                    val profile = UserProfileChangeRequest.Builder().setDisplayName(name).build()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            auth.currentUser?.updateProfile(profile)?.await()
+                            withContext(Dispatchers.Main) {
+                                Intent(this@RegisterActivity, HomeActivity::class.java).also {
+                                    startActivity(it)
+                                }
+                            }
+                        } catch (e: Exception) {
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_LONG)
+                                    .show()
+                            }
+                        }
+                    }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_LONG).show()
                     }
                 }
             }
-        }else{
-            Toast.makeText(this@RegisterActivity,"Please enter all the details.", Toast.LENGTH_LONG).show()
-        }
-        auth.currentUser?.let{user ->
-            val profile = UserProfileChangeRequest.Builder().setDisplayName(name).build()
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    user.updateProfile(profile).await()
-                } catch (e: Exception) {
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        }
-        if(auth.currentUser!=null){
-            Intent(this,HomeActivity::class.java).also {
-                startActivity(it)
-            }
+        } else {
+            Toast.makeText(
+                this@RegisterActivity,
+                "Please enter all the details.",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
