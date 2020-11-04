@@ -16,6 +16,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
+        auth.signOut()
         txtRegister.setOnClickListener {
             Intent(this,RegisterActivity::class.java).also {
                 startActivity(it)
