@@ -1,12 +1,16 @@
 package com.rohan.hackathonapp
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,7 +23,7 @@ import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-const val REQUEST_CODE_SIGN_IN = 0
+const val REQUEST_CODE_SIGN_IN = 123
 
 class LoginActivity : AppCompatActivity() {
     lateinit var auth : FirebaseAuth
@@ -27,7 +31,6 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
-        auth.signOut()
         btnLogin.setOnClickListener {
             loginUser()
         }
@@ -36,12 +39,14 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+        val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.WebClientId2))
+            .requestEmail().requestProfile().build()
+        val  signInClient = GoogleSignIn.getClient(this,options)
+        signInClient.signOut()
+        auth.signOut()
         btnGoogleSignIn.setOnClickListener {
-            val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.webClient_id))
-                .requestEmail().requestProfile().build()
 
-            val signInClient = GoogleSignIn.getClient(this,options)
             signInClient.signInIntent.also{
                 startActivityForResult(it, REQUEST_CODE_SIGN_IN)
             }
@@ -104,15 +109,20 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode== REQUEST_CODE_SIGN_IN){
-           val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
-            account?.let{
-                googleAuthForFirebase(it)
+        if(requestCode == REQUEST_CODE_SIGN_IN&&resultCode == Activity.RESULT_OK) {
+            try{
+                val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
+                account?.let {
+                    googleAuthForFirebase(it)
+                }
+            }catch(e:Exception){
+                Toast.makeText(this,e.message,Toast.LENGTH_LONG).show()
             }
         }
-
     }
 
 }
