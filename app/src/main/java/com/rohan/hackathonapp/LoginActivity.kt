@@ -27,6 +27,7 @@ const val REQUEST_CODE_SIGN_IN = 123
 
 class LoginActivity : AppCompatActivity() {
     lateinit var auth : FirebaseAuth
+    lateinit var signInClient:GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -42,9 +43,8 @@ class LoginActivity : AppCompatActivity() {
         val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.WebClientId2))
             .requestEmail().requestProfile().build()
-        val  signInClient = GoogleSignIn.getClient(this,options)
-        signInClient.signOut()
-        auth.signOut()
+        signInClient = GoogleSignIn.getClient(this,options)
+
         btnGoogleSignIn.setOnClickListener {
 
             signInClient.signInIntent.also{
@@ -108,7 +108,19 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+    private fun getLoggedInState(){
+        if(auth.currentUser!=null){
+            Intent(this,HomeActivity::class.java).also{
+                startActivity(it)
+            }
+        }
+    }
 
+
+    override fun onStart() {
+        super.onStart()
+        getLoggedInState()
+    }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
