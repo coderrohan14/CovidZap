@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imgLogo" />
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/etGoogleSignIn"
+        android:id="@+id/btnGoogleSignIn"
         android:layout_width="260dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -91,7 +91,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
         android:background="#201E1E"
-        app:layout_constraintBottom_toTopOf="@+id/etGoogleSignIn"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoogleSignIn"
         app:layout_constraintEnd_toStartOf="@+id/txtOr"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtRegister" />
@@ -105,7 +105,7 @@
         android:textColor="#201E1E"
         android:textSize="28sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/etGoogleSignIn"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoogleSignIn"
         app:layout_constraintEnd_toStartOf="@+id/textView7"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/txtRegister" />
@@ -116,7 +116,7 @@
         android:layout_height="2dp"
         android:layout_marginTop="5dp"
         android:background="#201E1E"
-        app:layout_constraintBottom_toTopOf="@+id/etGoogleSignIn"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoogleSignIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtOr"
         app:layout_constraintTop_toBottomOf="@+id/txtRegister" />
