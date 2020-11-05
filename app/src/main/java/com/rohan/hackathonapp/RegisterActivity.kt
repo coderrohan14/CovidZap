@@ -46,6 +46,7 @@ class RegisterActivity : AppCompatActivity() {
                             withContext(Dispatchers.Main) {
                                 Intent(this@RegisterActivity, HomeActivity::class.java).also {
                                     startActivity(it)
+                                    finish()
                                 }
                             }
                         } catch (e: Exception) {

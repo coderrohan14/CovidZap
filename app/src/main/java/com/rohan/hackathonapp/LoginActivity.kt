@@ -66,6 +66,7 @@ class LoginActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main){
                         Intent(this@LoginActivity,HomeActivity::class.java).also {
                             startActivity(it)
+                            finish()
                         }
                     }
                 } catch (e: Exception) {
@@ -92,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
                         withContext(Dispatchers.Main) {
                             Intent(this@LoginActivity, HomeActivity::class.java).also {
                                 startActivity(it)
+                                finish()
                             }
                         }
                     } catch (e: Exception) {
@@ -108,20 +110,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-    private fun getLoggedInState(){
-        if(auth.currentUser!=null){
-            Intent(this,HomeActivity::class.java).also{
-                startActivity(it)
-            }
-        }
+
+
+
+    override fun onBackPressed() {
+        finish()
     }
-
-
-    override fun onStart() {
-        super.onStart()
-        getLoggedInState()
-    }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

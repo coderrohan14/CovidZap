@@ -40,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
             signInClient.signOut()
             Intent(this,LoginActivity::class.java).also{
                 startActivity(it)
+                finish()
             }
         }
 
@@ -48,6 +49,6 @@ class HomeActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-       onDestroy()
+       finish()
     }
 }

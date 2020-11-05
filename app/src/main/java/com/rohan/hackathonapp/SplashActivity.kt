@@ -16,6 +16,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed(
             {
                 getLoggedInState()
+                finish()
             }, SPLASH_TIME_OUT)
     }
     private fun getLoggedInState(){
