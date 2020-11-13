@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <group android:checkableBehavior="single">
     <item
-        android:id="@+id/miItem1"
-        android:title="HOME"
+        android:id="@+id/menu_home"
+        android:title="Home"
         tools:ignore="HardcodedText" />
     <item
-        android:id="@+id/miItem2"
-        android:title="HOSPITALS"
+        android:id="@+id/menu_profile"
+        android:title="Profile"
         tools:ignore="HardcodedText" />
     <item
         tools:ignore="HardcodedText"
-        android:id="@+id/miItem3"
-        android:title="LOGOUT"
+        android:id="@+id/menu_log_out"
+        android:title="Log Out"
         />
+    </group>
 </menu>

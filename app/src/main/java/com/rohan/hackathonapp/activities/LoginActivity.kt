@@ -1,4 +1,4 @@
-package com.rohan.hackathonapp
+package com.rohan.hackathonapp.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -12,6 +12,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
+import com.rohan.hackathonapp.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +33,7 @@ class LoginActivity : AppCompatActivity() {
             loginUser()
         }
         txtRegister.setOnClickListener {
-            Intent(this,RegisterActivity::class.java).also {
+            Intent(this, RegisterActivity::class.java).also {
                 startActivity(it)
             }
         }
@@ -60,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                 try {
                     auth.signInWithEmailAndPassword(email,password).await()
                     withContext(Dispatchers.Main){
-                        Intent(this@LoginActivity,HomeActivity::class.java).also {
+                        Intent(this@LoginActivity, HomeActivity::class.java).also {
                             startActivity(it)
                             finish()
                         }
@@ -115,7 +116,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REQUEST_CODE_SIGN_IN&&resultCode == Activity.RESULT_OK) {
+        if(requestCode == REQUEST_CODE_SIGN_IN &&resultCode == Activity.RESULT_OK) {
             try{
                 val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
                 account?.let {

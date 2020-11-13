@@ -1,10 +1,11 @@
-package com.rohan.hackathonapp
+package com.rohan.hackathonapp.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.rohan.hackathonapp.R
 
 class SplashActivity : AppCompatActivity() {
     private val SPLASH_TIME_OUT = 1500L
@@ -21,12 +22,12 @@ class SplashActivity : AppCompatActivity() {
     }
     private fun getLoggedInState(){
         if(auth.currentUser==null){
-            Intent(this,LoginActivity::class.java).also{
+            Intent(this, LoginActivity::class.java).also{
                 startActivity(it)
             }
         }
         else{
-            Intent(this,HomeActivity::class.java).also{
+            Intent(this, HomeActivity::class.java).also{
                 startActivity(it)
             }
         }
