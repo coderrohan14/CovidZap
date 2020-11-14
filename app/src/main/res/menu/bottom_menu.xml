@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+        <item
+            android:id="@+id/bot_menu_home"
+            android:title="Home"
+            android:icon="@drawable/ic_action_home"
+            tools:ignore="HardcodedText" />
+        <item
+            android:id="@+id/bot_menu_hospitals"
+            android:title="Hospitals"
+            android:icon="@drawable/ic_action_hospitals"
+            tools:ignore="HardcodedText" />
+        <item
+            android:id="@+id/bot_menu_qa"
+            tools:ignore="HardcodedText"
+            android:icon="@drawable/ic_action_qa"
+            android:title="Info"
+            />
+
+</menu>

@@ -14,7 +14,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:theme="@style/AppTheme"
             android:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
@@ -23,8 +23,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark"
-                app:layout_scrollFlags="scroll|enterAlways"/>
+                android:theme="@style/AppTheme" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <FrameLayout

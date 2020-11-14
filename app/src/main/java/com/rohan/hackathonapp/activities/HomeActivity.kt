@@ -16,6 +16,7 @@ import com.rohan.hackathonapp.R
 import com.rohan.hackathonapp.fragments.HomeFragment
 import com.rohan.hackathonapp.fragments.ProfileFragment
 import kotlinx.android.synthetic.main.activity_navigation.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeActivity : AppCompatActivity() {
     lateinit var auth :FirebaseAuth
@@ -70,8 +71,9 @@ class HomeActivity : AppCompatActivity() {
 
         }
 
+
     fun setUpToolbar() {
-        setSupportActionBar(toolbar)
+        supportActionBar?.height
         supportActionBar?.title = "Welcome"
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

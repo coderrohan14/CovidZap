@@ -2,7 +2,7 @@
     <string name="app_name">HackathonApp</string>
     <string name="webClient_id">724700494588-vjvdohkb4g723ehthicd0so45k01b7gm.apps.googleusercontent.com</string>
     <string name="API_KEY">AIzaSyAKoCs1MLHQrME6wknqS1jUhOQnfnYh0js</string>
-    <string name="WebClientId2">724700494588-730mo7sfa7hp3be4e8rdh88lbgtshd69.apps.googleusercontent.com</string>
+    <string name="WebClientId2">724700494588–730mo7sfa7hp3be4e8rdh88lbgtshd69.apps.googleusercontent.com</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <!-- TODO: Remove or change this placeholder text -->
