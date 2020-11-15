@@ -4,15 +4,24 @@
     <group android:checkableBehavior="single">
     <item
         android:id="@+id/menu_home"
+        android:icon="@drawable/ic_action_home"
         android:title="Home"
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/menu_profile"
         android:title="Profile"
+        android:icon="@drawable/ic_action_profile"
         tools:ignore="HardcodedText" />
+        <item
+            tools:ignore="HardcodedText"
+            android:id="@+id/menu_contact_details"
+            android:icon="@drawable/ic_action_helpline"
+            android:title="Helpline Numbers"
+            />
     <item
         tools:ignore="HardcodedText"
         android:id="@+id/menu_log_out"
+        android:icon="@drawable/ic_action_log_out"
         android:title="Log Out"
         />
     </group>

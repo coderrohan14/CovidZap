@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.rohan.hackathonapp.R
+import com.rohan.hackathonapp.fragments.HelplineFragment
 import com.rohan.hackathonapp.fragments.HomeFragment
 import com.rohan.hackathonapp.fragments.ProfileFragment
 import kotlinx.android.synthetic.main.activity_navigation.*
@@ -47,6 +48,12 @@ class HomeActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction().replace(R.id.frame, ProfileFragment())
                         .commit()
                     supportActionBar?.title = "Profile"
+                    drawerLayout.closeDrawers()
+                }
+                R.id.menu_contact_details -> {
+                    supportFragmentManager.beginTransaction().replace(R.id.frame, HelplineFragment())
+                        .commit()
+                    supportActionBar?.title = "Helpline Numbers"
                     drawerLayout.closeDrawers()
                 }
                 R.id.menu_log_out -> {
