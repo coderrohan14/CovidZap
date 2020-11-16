@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_LONG).show()
                     }
                 }
-            }
+            }git add .
         }else{
             Toast.makeText(this@LoginActivity,"Please enter all the details.", Toast.LENGTH_LONG).show()
         }
