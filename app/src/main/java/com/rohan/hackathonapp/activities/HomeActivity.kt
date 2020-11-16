@@ -57,20 +57,23 @@ class HomeActivity : AppCompatActivity() {
                     drawerLayout.closeDrawers()
                 }
                 R.id.menu_log_out -> {
-//                    val alert = AlertDialog.Builder(this@HomeActivity, R.style.MyDialogTheme)
-//                    alert.setTitle("Log Out?")
-//                    alert.setMessage("Are you sure you want to Log Out?")
-//                    alert.setPositiveButton("Yes") { text, listener ->
-//                        val new4 = Intent(this@HomeActivity, LoginActivity::class.java)
-//                        startActivity(new4)
-//                    }
-//                    alert.setNegativeButton("No") { text, listener ->
-//                        openHome()
-//                        drawerLayout.closeDrawers()
-//                    }
-//                    alert.setCancelable(false)
-//                    alert.create()
-//                    alert.show()
+                    val alert = AlertDialog.Builder(this@HomeActivity, R.style.MyDialogTheme)
+                    alert.setTitle("Log Out?")
+                    alert.setMessage("Are you sure you want to Log Out?")
+                    alert.setPositiveButton("Yes") { text, listener ->
+                        auth.signOut()
+                        signInClient.signOut()
+                        val new4 = Intent(this@HomeActivity, LoginActivity::class.java)
+                        startActivity(new4)
+                        finish()
+                    }
+                    alert.setNegativeButton("No") { text, listener ->
+                        openHome()
+                        drawerLayout.closeDrawers()
+                    }
+                    alert.setCancelable(false)
+                    alert.create()
+                    alert.show()
                 }
             }
                 true
