@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
                 }
                 R.id.bot_menu_qa -> {
                     loadFragment(FaqFragment())
-                    (activity as AppCompatActivity).supportActionBar?.title = "Updates"
+                    (activity as AppCompatActivity).supportActionBar?.title = "Notifications"
                 }
             }
             true
