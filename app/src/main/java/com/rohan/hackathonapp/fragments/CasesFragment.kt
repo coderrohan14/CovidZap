@@ -20,6 +20,7 @@ import com.rohan.hackathonapp.model.CasesRegional
 import kotlinx.android.synthetic.main.fragment_cases.view.*
 import kotlinx.android.synthetic.main.recycler_cases_single_row.view.*
 import java.lang.Exception
+import java.util.*
 
 class CasesFragment : Fragment() {
 
@@ -27,6 +28,14 @@ class CasesFragment : Fragment() {
     lateinit var recyclerCases: RecyclerView
     lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var recyclerAdapter: CasesRecyclerAdapter
+
+    var totalConfirmedComparator = kotlin.Comparator<CasesRegional> { state1,state2 ->
+        if(state1.totalConfirmed.compareTo(state2.totalConfirmed,true)==0){
+            state1.totalConfirmed.compareTo(state2.totalConfirmed,true)
+        }else {
+            state1.totalConfirmed.compareTo(state2.totalConfirmed, true)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

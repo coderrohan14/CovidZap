@@ -1,60 +1,40 @@
 package com.rohan.hackathonapp.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.location.Location
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.rohan.hackathonapp.R
+import com.rohan.hackathonapp.activities.HomeActivity
+import kotlinx.android.synthetic.main.fragment_hospitals.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val last_lat = "last_lat"
+private const val last_long = "last_long"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HospitalsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HospitalsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_hospitals, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HospitalsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HospitalsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        val view = inflater.inflate(R.layout.fragment_hospitals, container, false)
+        val sharedPreferences:SharedPreferences = (activity as HomeActivity).getSharedPreferences("Location Details",Context.MODE_PRIVATE)
+        val s1 = sharedPreferences.getString("last_lat","Null")
+        val s2 = sharedPreferences.getString("last_long","Null")
+        val txtLat:TextView= view.findViewById(R.id.textView18)
+        val txtLong:TextView= view.findViewById(R.id.textView16)
+        txtLat.text = s1
+        txtLong.text = s2
+        return view
     }
 }
