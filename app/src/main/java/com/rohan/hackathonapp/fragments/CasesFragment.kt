@@ -74,6 +74,7 @@ class CasesFragment : Fragment() {
                             recyclerAdapter.notifyDataSetChanged()
                             recyclerCases.adapter = recyclerAdapter
                             recyclerCases.layoutManager = layoutManager
+
                         }
                     }else{
                         Toast.makeText(

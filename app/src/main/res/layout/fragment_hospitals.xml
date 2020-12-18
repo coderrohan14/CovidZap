@@ -8,30 +8,63 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        tools:context=".MainActivity">
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/textViewAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Latitude"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:text="Enter Address: "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Longitude"
-            android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="152dp"
+            android:layout_toEndOf="@+id/textViewAddress"
+            android:singleLine="true"
+            android:text=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewAddress" />
+
+        <Button
+            android:id="@+id/addressButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewAddress"
+            android:layout_marginTop="24dp"
+            android:layout_toEndOf="@+id/textViewAddress"
+            android:text="Show Lat/Long"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+            app:layout_constraintTop_toBottomOf="@id/editTextAddress" />
+
+        <TextView
+            android:id="@+id/latLongTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textViewAddress"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/background_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addressButton" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

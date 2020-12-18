@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="#000000">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/txtHospitalName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:textColor="#ffffff"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Apollo Hospitals, Ahmedabad" />
+
+        <TextView
+            android:id="@+id/txtHospitalState"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:textColor="#D50000"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtHospitalName"
+            tools:text="Gujarat" />
+        <TextView
+            android:id="@+id/txtTitleCapacity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Capacity"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#FFD600"
+            app:layout_constraintTop_toBottomOf="@id/txtHospitalState"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline6"/>
+        <TextView
+            android:id="@+id/txtTitleBeds"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Total Beds"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#FFD600"
+            app:layout_constraintTop_toBottomOf="@id/txtHospitalState"
+            app:layout_constraintLeft_toLeftOf="@id/guideline6"
+            app:layout_constraintRight_toLeftOf="@+id/guideline7"/>
+        <TextView
+            android:id="@+id/txtTitleDistance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Distance"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#FFD600"
+            app:layout_constraintTop_toBottomOf="@id/txtHospitalState"
+            app:layout_constraintLeft_toLeftOf="@id/guideline7"
+            app:layout_constraintRight_toLeftOf="@+id/guideline8"/>
+        <Button
+            android:id="@+id/btnViewMap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="View On Map"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:backgroundTint="#045124"
+            app:layout_constraintTop_toBottomOf="@id/txtHospitalState"
+            app:layout_constraintLeft_toLeftOf="@id/guideline8"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <TextView
+            android:id="@+id/txtTitleCapacityCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="400"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="#0BA611"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline6"
+            app:layout_constraintTop_toBottomOf="@id/txtTitleCapacity" />
+        <TextView
+            android:id="@+id/txtTitleBedsCount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="250"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="#0BA611"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/txtTitleBeds"
+            app:layout_constraintLeft_toLeftOf="@id/guideline6"
+            app:layout_constraintRight_toLeftOf="@+id/guideline7"/>
+        <TextView
+            android:id="@+id/txtTitleDistanceNum"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            tools:text="120 Km"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="#0BA611"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/txtTitleDistance"
+            app:layout_constraintLeft_toLeftOf="@id/guideline7"
+            app:layout_constraintRight_toLeftOf="@+id/guideline8"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.75"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
