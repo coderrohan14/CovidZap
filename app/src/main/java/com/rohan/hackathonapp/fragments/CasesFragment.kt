@@ -29,13 +29,6 @@ class CasesFragment : Fragment() {
     lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var recyclerAdapter: CasesRecyclerAdapter
 
-    var totalConfirmedComparator = kotlin.Comparator<CasesRegional> { state1,state2 ->
-        if(state1.totalConfirmed.compareTo(state2.totalConfirmed,true)==0){
-            state1.totalConfirmed.compareTo(state2.totalConfirmed,true)
-        }else {
-            state1.totalConfirmed.compareTo(state2.totalConfirmed, true)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,10 +65,9 @@ class CasesFragment : Fragment() {
                             state.add(regionalCases)
                             recyclerAdapter =
                                 CasesRecyclerAdapter(activity as Context, state)
-                            recyclerAdapter.notifyDataSetChanged()
                             recyclerCases.adapter = recyclerAdapter
                             recyclerCases.layoutManager = layoutManager
-
+                            recyclerAdapter.notifyDataSetChanged()
                         }
                     }else{
                         Toast.makeText(
