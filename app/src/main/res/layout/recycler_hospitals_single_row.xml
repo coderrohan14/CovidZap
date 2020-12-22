@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="170dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="12dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
     app:cardBackgroundColor="#000000">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -80,18 +82,21 @@
             app:layout_constraintTop_toBottomOf="@id/txtHospitalState"
             app:layout_constraintLeft_toLeftOf="@id/guideline7"
             app:layout_constraintRight_toLeftOf="@+id/guideline8"/>
+
         <Button
             android:id="@+id/btnViewMap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="38dp"
+            android:backgroundTint="#045124"
             android:text="View On Map"
             android:textColor="#ffffff"
-            android:textStyle="bold"
             android:textSize="15sp"
-            android:backgroundTint="#045124"
-            app:layout_constraintTop_toBottomOf="@id/txtHospitalState"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@id/guideline8"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtHospitalState" />
 
         <TextView
             android:id="@+id/txtTitleCapacityCount"
@@ -125,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             tools:text="120 Km"
-            android:textSize="21sp"
+            android:textSize="19sp"
             android:textStyle="bold"
             android:textColor="#0BA611"
             android:gravity="center"

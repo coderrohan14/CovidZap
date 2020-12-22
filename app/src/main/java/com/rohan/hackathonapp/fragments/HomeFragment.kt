@@ -1,5 +1,6 @@
 package com.rohan.hackathonapp.fragments
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ class HomeFragment : Fragment() {
                 R.id.bot_menu_hospitals ->{
                     loadFragment(HospitalsFragment())
                     (activity as AppCompatActivity).supportActionBar?.title = "Covid Hospitals"
+                    (activity as AppCompatActivity).supportActionBar?.subtitle = "Nearby Hospitals"
                 }
                 R.id.bot_menu_qa -> {
                     loadFragment(FaqFragment())

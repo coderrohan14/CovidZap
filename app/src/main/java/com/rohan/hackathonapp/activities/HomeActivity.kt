@@ -11,7 +11,9 @@ import android.location.Location
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.os.Looper
+import android.os.Message
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
@@ -19,12 +21,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.location.*
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.rohan.hackathonapp.LocationAddress
 import com.rohan.hackathonapp.R
 import com.rohan.hackathonapp.fragments.HelplineFragment
 import com.rohan.hackathonapp.fragments.HomeFragment
@@ -189,6 +193,7 @@ class HomeActivity : AppCompatActivity() {
         )
     }
 
+
     @SuppressLint("MissingPermission")
      fun getLastLocation() {
         if (checkPermissions()) {
@@ -199,16 +204,23 @@ class HomeActivity : AppCompatActivity() {
                     if (location == null) {
                         requestNewLocationData()
                     } else {
-                        var lastLatitude = location.latitude
-                        var lastLongitude = location.longitude
-                        val sharedPreferences: SharedPreferences = this.getSharedPreferences("Location Details",Context.MODE_PRIVATE)
+                        val lastLatitude = location.latitude
+                        val lastLongitude = location.longitude
+
+                        val locationAddress = LocationAddress()
+                        var s:String?="hello1"
+                        locationAddress.getAddressFromLocation(
+                            lastLatitude, lastLongitude, applicationContext, GeoCoderHandler()
+                        )
+                        val sharedPreferences: SharedPreferences = this.getSharedPreferences("Location Details",
+                            MODE_PRIVATE
+                        )
                         val editor = sharedPreferences.edit()
                         editor.putString("last_lat",lastLatitude.toString())
                         editor.putString("last_long",lastLongitude.toString())
+                        //editor.putString("locState", s.toString())
                         editor.apply()
                         editor.commit()
-//                        val fragment = HospitalsFragment.newInstance(lastLatitude,lastLongitude)
-//                        Toast.makeText(this@HomeActivity,"The longitude is $lastLongitude",Toast.LENGTH_LONG).show()
                     }
                 }
             } else {
@@ -219,6 +231,39 @@ class HomeActivity : AppCompatActivity() {
         } else {
             requestPermissions()
         }
+    }
+    init{
+        instance=this
+    }
+    companion object{
+        private var instance: HomeActivity? = null
+        var cState:String?=null
+
+         class GeoCoderHandler() : Handler() {
+            var cState:String?="hello"
+
+            override fun handleMessage(message: Message) {
+                val locationAddress: String?
+                locationAddress = when (message.what) {
+                    1 -> {
+                        val bundle = message.data
+                        bundle.getString("address")
+                    }
+                    else -> "null"
+                }
+                 cState = locationAddress.toString()
+                val sharedPreferences: SharedPreferences = instance!!.applicationContext.getSharedPreferences("Location Details",
+                    MODE_PRIVATE
+                )
+                val editor = sharedPreferences.edit()
+                editor.putString("locState", cState.toString())
+                editor.apply()
+                editor.commit()
+               // Toast.makeText(instance!!.applicationContext,cState,Toast.LENGTH_LONG).show()
+            }
+
+        }
+
     }
 
 

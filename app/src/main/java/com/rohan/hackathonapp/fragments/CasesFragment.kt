@@ -53,6 +53,7 @@ class CasesFragment : Fragment() {
             { response ->
                 try{
                     view.progressLayout.visibility = View.GONE
+                    view.consCase.visibility=View.VISIBLE
                     val success = response.getBoolean("success")
                     if(success){
                         val data = response.getJSONObject("data")

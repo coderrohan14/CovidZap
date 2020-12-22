@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 class GeoCodingLocation {
@@ -21,15 +24,14 @@ class GeoCodingLocation {
                     context,
                     Locale.getDefault()
                 )
-                var result: String? = null
+                var lat:Double?=null
+                var long:Double?=null
                 try {
-                    val addressList = geoCoder.getFromLocationName(locationAddress, 1)
+                    val addressList = geoCoder.getFromLocationName(locationAddress, 100)
                     if (addressList != null && addressList.size > 0) {
-                        val address = addressList.get(0) as Address
-                        val sb = StringBuilder()
-                        sb.append(address.latitude).append("\n")
-                        sb.append(address.longitude).append("\n")
-                        result = sb.toString()
+                        val address = addressList[0] as Address
+                        lat = address.latitude
+                        long = address.longitude
                     }
                 } catch (e: IOException) {
                     Log.e(TAG, "Unable to connect to GeoCoder", e)
@@ -38,9 +40,8 @@ class GeoCodingLocation {
                     message.target = handler
                     message.what = 1
                     val bundle = Bundle()
-                    result = ("Address: $locationAddress" +
-                            "\n\nLatitude and Longitude: \n" + result)
-                    bundle.putString("address", result)
+                    bundle.putString("HospitalLat",lat.toString())
+                    bundle.putString("HospitalLong",long.toString())
                     message.data = bundle
                     message.sendToTarget()
                 }

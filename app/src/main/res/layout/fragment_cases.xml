@@ -7,10 +7,11 @@
     tools:context=".fragments.CasesFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/progressLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
 
         <ProgressBar
             android:layout_width="wrap_content"
@@ -23,9 +24,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/consCase"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_img">
+        android:background="@color/colorPrimary"
+        android:visibility="gone">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -34,7 +37,6 @@
             app:cardBackgroundColor="#FF9AF4FF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:cardCornerRadius="20dp"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,7 +50,7 @@
                     android:fontFamily="sans-serif-black"
                     android:text="India"
                     android:textColor="#FF0B23A8"
-                    android:textSize="31sp"
+                    android:textSize="34sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:text="Total"
-                    android:textSize="20sp"
+                    android:textSize="28sp"
                     android:textStyle="bold"
                     android:textColor="#FFCC5700"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -86,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:text="Discharged"
-                    android:textSize="20sp"
+                    android:textSize="28sp"
                     android:textStyle="bold"
                     android:textColor="#FF25C600"
                     app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -99,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:text="Deaths"
-                    android:textSize="20sp"
+                    android:textSize="28sp"
                     android:textStyle="bold"
                     android:textColor="#FFD50000"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -112,7 +114,7 @@
                     android:layout_height="wrap_content"
                     tools:text="65000"
                     android:textColor="#FFCC5700"
-                    android:textSize="30sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline4"
@@ -125,7 +127,7 @@
                     android:layout_height="wrap_content"
                     tools:text="55000"
                     android:textColor="#FF25C600"
-                    android:textSize="30sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guideline5"
@@ -138,7 +140,7 @@
                     android:layout_height="wrap_content"
                     tools:text="10000"
                     android:textColor="#FFD50000"
-                    android:textSize="30sp"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
