@@ -70,25 +70,29 @@ class CasesFragment : Fragment() {
                             recyclerAdapter.notifyDataSetChanged()
                         }
                     }else{
+                        activity?.let { context ->
+                            Toast.makeText(
+                                context as Context,
+                                "Some error occurred!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }catch (e:Exception){
+                    activity?.let { context ->
                         Toast.makeText(
-                            activity as Context,
-                            "Some error has occurred!!",
+                            context as Context,
+                            e.message,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                }catch (e:Exception){
-                    Toast.makeText(
-                        activity as Context,
-                        e.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
             },
             {
-                if (activity != null) {
+                activity?.let { context ->
                     Toast.makeText(
-                        activity as Context,
-                        "Volley error occurred!!",
+                        context as Context,
+                        "Volley error occurred!",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

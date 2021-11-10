@@ -22,14 +22,11 @@ import com.rohan.hackathonapp.R
 import com.rohan.hackathonapp.activities.HomeActivity
 import com.rohan.hackathonapp.adapter.HospitalsRecyclerAdapter
 import com.rohan.hackathonapp.model.Hospital
+import kotlinx.android.synthetic.main.fragment_hospitals.*
 import kotlinx.android.synthetic.main.fragment_hospitals.view.*
-import kotlin.math.acos
-import kotlin.math.cos
-import kotlin.math.sin
-
-
-private const val last_lat = "last_lat"
-private const val last_long = "last_long"
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HospitalsFragment : Fragment() {
 
@@ -49,12 +46,29 @@ class HospitalsFragment : Fragment() {
             "Location Details",
             Context.MODE_PRIVATE
         )
-    //    val editor = sharedPreferences.edit()
+
         val currLat = sharedPreferences.getString("last_lat", "0.0")?.toDouble()
         val currLong = sharedPreferences.getString("last_long", "0.0")?.toDouble()
         val currState:String = sharedPreferences.getString("locState", "null").toString()
+        Log.d("HospitalCrash", "{$currLat, $currLong}, $currState")
 
-        Log.d("LocationTest", "$currLat $currLong $currState")
+        view.button1.setOnClickListener{
+            hospitals.let {
+                it.sortWith { lhs, rhs -> // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                    if (lhs.distance < rhs.distance) -1 else if (lhs.hospitalBeds > rhs.hospitalBeds) 1 else 0
+                }
+                recyclerAdapter.notifyDataSetChanged()
+            }
+        }
+
+        view.button2.setOnClickListener {
+            hospitals.let {
+                it.sortWith { lhs, rhs -> // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                    if (lhs.hospitalBeds > rhs.hospitalBeds) -1 else if (lhs.admissionCapacity > rhs.admissionCapacity) 1 else 0
+                }
+                recyclerAdapter.notifyDataSetChanged()
+            }
+        }
 
         recyclerHospitals = view.findViewById(R.id.recyclerHospitals)
         layoutManager = LinearLayoutManager(activity as Context)
@@ -66,10 +80,14 @@ class HospitalsFragment : Fragment() {
                 try {
                     val success = it.getBoolean("success")
                     if (success) {
-                        view.progressHospitals.visibility = View.GONE
-                        view.consHosp.visibility = View.VISIBLE
                         val data = it.getJSONObject("data")
                         val hospitalsArray = data.getJSONArray("medicalColleges")
+                        recyclerAdapter = HospitalsRecyclerAdapter(
+                            activity as HomeActivity,
+                            hospitals
+                        )
+                        recyclerHospitals.adapter = recyclerAdapter
+                        recyclerHospitals.layoutManager = layoutManager
                         for (i in 0 until hospitalsArray.length()) {
                             val hospitalObject = hospitalsArray.getJSONObject(i)
                             if (!hospitalObject.getString("state").toString().equals(
@@ -81,58 +99,58 @@ class HospitalsFragment : Fragment() {
                                 hospitalObject.getString("name") + ", " + hospitalObject.getString(
                                     "state"
                                 ) + ", India"
-                            locationAddress.getAddressFromLocation(
-                                address, activity as Context,
-                                GeoCoderHandler(activity as HomeActivity, i)
-                            )
-                            val lat = sharedPreferences.getString("geoLat$i", null)?.toDouble()
-                            val long = sharedPreferences.getString("geoLong$i", null)?.toDouble()
-                            val startPoint = Location("locationA")
-                            startPoint.latitude = currLat!!
-                            startPoint.longitude = currLong!!
+                            CoroutineScope(Dispatchers.Main).launch {
+                                locationAddress.getAddressFromLocation(
+                                    address, activity as Context,
+                                    GeoCoderHandler(activity as HomeActivity, i)
+                                )
+                                val lat = sharedPreferences.getString("geoLat$i", null)?.toDouble()
+                                val long = sharedPreferences.getString("geoLong$i", null)?.toDouble()
+                                val startPoint = Location("locationA")
+                                if(currLat==null || currLong==null) return@launch
+                                startPoint.latitude = currLat
+                                startPoint.longitude = currLong
 
-                            val endPoint = Location("locationB")
-                            endPoint.latitude = lat!!
-                            endPoint.longitude = long!!
+                                val endPoint = Location("locationB")
+                                if(lat==null||long==null) return@launch
+                                endPoint.latitude = lat
+                                endPoint.longitude = long
 
-                            val currDistance: Double =
-                                startPoint.distanceTo(endPoint).toDouble() / 1000
-//                            val currDistance: Double =
-//                                distance(currLat!!, currLong!!, lat!!, long!!)
-                            val currHospital = Hospital(
-                                hospitalObject.getString("state"),
-                                hospitalObject.getString("name"),
-                                hospitalObject.getString("admissionCapacity"),
-                                hospitalObject.getString("hospitalBeds"),
-                                String.format("%.1f", currDistance).toDouble(),
-                                lat,
-                                long
-                            )
-                            hospitals.add(currHospital)
-                            recyclerAdapter = HospitalsRecyclerAdapter(
-                                activity as HomeActivity,
-                                hospitals
-                            )
-                            hospitals.sortWith { lhs, rhs -> // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                                if (lhs.distance < rhs.distance) -1 else if (lhs.hospitalBeds > rhs.hospitalBeds) 1 else 0
+                                val currDistance: Double =
+                                    startPoint.distanceTo(endPoint).toDouble() / 1000
+
+                                val currHospital = Hospital(
+                                    hospitalObject.getString("state"),
+                                    hospitalObject.getString("name"),
+                                    hospitalObject.getString("admissionCapacity"),
+                                    hospitalObject.getString("hospitalBeds"),
+                                    String.format("%.1f", currDistance).toDouble(),
+                                    lat,
+                                    long
+                                )
+                                hospitals.add(currHospital)
+                                recyclerAdapter.notifyItemChanged(recyclerAdapter.itemCount-1)
                             }
-                            recyclerHospitals.adapter = recyclerAdapter
-                            recyclerHospitals.layoutManager = layoutManager
-                            recyclerAdapter.notifyDataSetChanged()
                         }
+                        view.progressHospitals.visibility = View.GONE
+                        view.consHosp.visibility = View.VISIBLE
                     } else {
+                        activity?.let { context ->
+                            Toast.makeText(
+                                context as Context,
+                                "Some error occurred!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    activity?.let { context ->
                         Toast.makeText(
-                            activity as Context,
-                            "Some error has occurred!!",
+                            context as Context,
+                            "${e.message}",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
-                } catch (e: Exception) {
-                    Toast.makeText(
-                        activity as Context,
-                        e.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
             }, {
                 activity?.let {
@@ -148,39 +166,17 @@ class HospitalsFragment : Fragment() {
         return view
     }
 
-    private fun distance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-        val theta = lon1 - lon2
-        var dist = (sin(deg2rad(lat1))
-                * sin(deg2rad(lat2))
-                + (cos(deg2rad(lat1))
-                * cos(deg2rad(lat2))
-                * cos(deg2rad(theta))))
-        dist = acos(dist)
-        dist = rad2deg(dist)
-        dist *= 60 * 1.1515
-        return dist
-    }
-
-    private fun deg2rad(deg: Double): Double {
-        return deg * Math.PI / 180.0
-    }
-
-    private fun rad2deg(rad: Double): Double {
-        return rad * 180.0 / Math.PI
-    }
     companion object {
-        class GeoCoderHandler(private val instance: Context, val i: Int) : Handler() {
+        class GeoCoderHandler(private val instance: Context, private val i: Int) : Handler() {
             override fun handleMessage(message: Message) {
-                val locationLat: String?
-                val locationLong: String?
-                locationLat = when (message.what) {
+                val locationLat: String? = when (message.what) {
                     1 -> {
                         val bundle = message.data
                         bundle.getString("HospitalLat")
                     }
                     else -> null
                 }
-                locationLong = when (message.what) {
+                val locationLong: String? = when (message.what) {
                     1 -> {
                         val bundle = message.data
                         bundle.getString("HospitalLong")
@@ -195,7 +191,6 @@ class HospitalsFragment : Fragment() {
                 editor.putString("geoLat$i", locationLat.toString())
                 editor.putString("geoLong$i", locationLong.toString())
                 editor.apply()
-                editor.commit()
                 message.data.remove("HospitalLat")
                 message.data.remove("HospitalLong")
             }
