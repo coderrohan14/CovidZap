@@ -1,14 +1,14 @@
 package com.rohan.hackathonapp.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -23,8 +23,8 @@ import kotlinx.coroutines.withContext
 const val REQUEST_CODE_SIGN_IN = 123
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var auth : FirebaseAuth
-    lateinit var signInClient:GoogleSignInClient
+    private lateinit var auth : FirebaseAuth
+    private lateinit var signInClient:GoogleSignInClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -38,17 +38,24 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.webClient_id))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail().requestProfile().build()
         signInClient = GoogleSignIn.getClient(this,options)
 
         btnGoogleSignIn.setOnClickListener {
-
+            setProgressVisibility(true)
             signInClient.signInIntent.also{
                 startActivityForResult(it, REQUEST_CODE_SIGN_IN)
             }
         }
 
+    }
+
+    private fun setProgressVisibility(visible: Boolean){
+        if(visible)
+            pbLogin?.visibility = View.VISIBLE
+        else
+            pbLogin?.visibility = View.GONE
     }
 
     private fun loginUser(){
@@ -57,18 +64,21 @@ class LoginActivity : AppCompatActivity() {
 
 
         if(email.isNotEmpty()&&password.isNotEmpty()) {
+            setProgressVisibility(true)
             CoroutineScope(Dispatchers.IO).launch {
                 try {
                     auth.signInWithEmailAndPassword(email,password).await()
                     withContext(Dispatchers.Main){
                         Intent(this@LoginActivity, HomeActivity::class.java).also {
                             startActivity(it)
+                            setProgressVisibility(false)
                             finish()
                         }
                     }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_LONG).show()
+                        setProgressVisibility(false)
                     }
                 }
             }
@@ -77,38 +87,28 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun googleAuthForFirebase(account:GoogleSignInAccount){
-        val credentials = GoogleAuthProvider.getCredential(account.idToken,null)
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                    auth.signInWithCredential(credentials).await()
-                    val name = account.displayName
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    val user = auth.currentUser
+                    val name = user?.displayName
                     val profile = UserProfileChangeRequest.Builder().setDisplayName(name).build()
-                    CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        auth.currentUser?.updateProfile(profile)?.await()
-                        withContext(Dispatchers.Main) {
-                            Intent(this@LoginActivity, HomeActivity::class.java).also {
-                                startActivity(it)
-                                finish()
-                            }
-                        }
-                    } catch (e: Exception) {
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_LONG)
-                                .show()
-                        }
+                    user?.updateProfile(profile)
+                    Intent(this@LoginActivity, HomeActivity::class.java).also {
+                        startActivity(it)
+                        setProgressVisibility(false)
+                        finish()
                     }
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@LoginActivity, e.message, Toast.LENGTH_LONG).show()
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(this@LoginActivity, "Login failed.", Toast.LENGTH_LONG).show()
+                    setProgressVisibility(false)
                 }
             }
-        }
     }
-
-
 
     override fun onBackPressed() {
         finish()
@@ -116,15 +116,20 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == REQUEST_CODE_SIGN_IN &&resultCode == Activity.RESULT_OK) {
-            try{
-                val account = GoogleSignIn.getSignedInAccountFromIntent(data).result
-                account?.let {
-                    googleAuthForFirebase(it)
-                }
-            }catch(e:Exception){
-                Toast.makeText(this,e.message,Toast.LENGTH_LONG).show()
+        if(requestCode == REQUEST_CODE_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+                setProgressVisibility(false)
             }
+        }else{
+            Toast.makeText(this, "Some error occurred.", Toast.LENGTH_SHORT).show()
+            setProgressVisibility(false)
         }
     }
 
