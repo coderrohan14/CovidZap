@@ -1,12 +1,12 @@
 package com.rohan.hackathonapp.fragments
 
-import android.R.attr
 import android.content.Context
 import android.content.SharedPreferences
 import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +23,6 @@ import com.rohan.hackathonapp.activities.HomeActivity
 import com.rohan.hackathonapp.adapter.HospitalsRecyclerAdapter
 import com.rohan.hackathonapp.model.Hospital
 import kotlinx.android.synthetic.main.fragment_hospitals.view.*
-import java.util.*
 import kotlin.math.acos
 import kotlin.math.cos
 import kotlin.math.sin
@@ -35,10 +34,10 @@ private const val last_long = "last_long"
 class HospitalsFragment : Fragment() {
 
 
-    val hospitals = arrayListOf<Hospital>()
-    lateinit var recyclerHospitals: RecyclerView
-    lateinit var layoutManager: RecyclerView.LayoutManager
-    lateinit var recyclerAdapter: HospitalsRecyclerAdapter
+    private val hospitals = arrayListOf<Hospital>()
+    private lateinit var recyclerHospitals: RecyclerView
+    private lateinit var layoutManager: RecyclerView.LayoutManager
+    private lateinit var recyclerAdapter: HospitalsRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +53,8 @@ class HospitalsFragment : Fragment() {
         val currLat = sharedPreferences.getString("last_lat", "0.0")?.toDouble()
         val currLong = sharedPreferences.getString("last_long", "0.0")?.toDouble()
         val currState:String = sharedPreferences.getString("locState", "null").toString()
+
+        Log.d("LocationTest", "$currLat $currLong $currState")
 
         recyclerHospitals = view.findViewById(R.id.recyclerHospitals)
         layoutManager = LinearLayoutManager(activity as Context)
@@ -134,9 +135,9 @@ class HospitalsFragment : Fragment() {
                     ).show()
                 }
             }, {
-                if (activity != null) {
+                activity?.let {
                     Toast.makeText(
-                        activity as Context,
+                        it as Context,
                         "Volley error occurred!!",
                         Toast.LENGTH_SHORT
                     ).show()

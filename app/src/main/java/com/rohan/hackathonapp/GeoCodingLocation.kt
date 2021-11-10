@@ -27,7 +27,7 @@ class GeoCodingLocation {
                 var lat:Double?=null
                 var long:Double?=null
                 try {
-                    val addressList = geoCoder.getFromLocationName(locationAddress, 100)
+                    val addressList = geoCoder.getFromLocationName(locationAddress, 4)
                     if (addressList != null && addressList.size > 0) {
                         val address = addressList[0] as Address
                         lat = address.latitude
